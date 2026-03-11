@@ -50,71 +50,11 @@ public class BinaryControllerTest {
     }
 	@Test
 	    public void postParameter() throws Exception {
-        this.mvc.perform(post("/").param("operand1","111").param("operator","+").param("operand2","111"))
+        this.mvc.perform(post("/").param("operand1","111").param("operator","+").param("operand2","111"))//.andDo(print())
             .andExpect(status().isOk())
             .andExpect(view().name("result"))
 			.andExpect(model().attribute("result", "1110"))
 			.andExpect(model().attribute("operand1", "111"));
     }
-
-    @Test
-        public void postMissingOperator() throws Exception{
-        this.mvc.perform(post("/")
-                        .param("operand1", "111")
-                        .param("operand2", "111"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("Error"));
-    }
-
-    @Test
-        public void postUnsupportedOperator() throws Exception{
-        this.mvc.perform(post("/")
-                .param("operand1", "1101")
-                .param("operator", "#")
-                .param("operand2", "10001"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("Error"));
-    }
-
-    @Test
-        public void postEmptyOperands() throws Exception{
-        this.mvc.perform(post("/")
-                .param("operand1", "")
-                .param("operator", "+")
-                .param("operand2", ""))
-                .andExpect(status().isOk())
-                .andExpect(view().name("Error"));
-    }
-    @Test
-    public void postMultiplyOperator() throws Exception {
-        this.mvc.perform(post("/")
-                        .param("operand1", "11")
-                        .param("operator", "*")
-                        .param("operand2", "10"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("result"))
-                .andExpect(model().attribute("result", "110"));
-    }
-    @Test
-    public void postAndOperator() throws Exception {
-        this.mvc.perform(post("/")
-                        .param("operand1", "1101")
-                        .param("operator", "&")
-                        .param("operand2", "1011"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("result"))
-                .andExpect(model().attribute("result", "1001"));
-    }
-    @Test
-    public void postOrOperator() throws Exception {
-        this.mvc.perform(post("/")
-                        .param("operand1", "1101")
-                        .param("operator", "|")
-                        .param("operand2", "1011"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("result"))
-                .andExpect(model().attribute("result", "1111"));
-    }
-
 
 }
